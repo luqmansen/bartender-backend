@@ -14,6 +14,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 LANGUAGE_CODE = 'en-us'
 USE_I18N = True
 USE_L10N = True
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 DEBUG = True
 if os.getenv('DEPLOY') in ['LIVE', 'PROD']:
@@ -30,10 +31,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_summernote',
     'rest_framework',
     'cloudinary_storage',
     'cloudinary',
-    'api.apps.ApiConfig'
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
@@ -113,7 +115,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'  # or any prefix you choose
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # cloudinary config
 CLOUDINARY_STORAGE = {
@@ -134,6 +137,5 @@ CLOUDINARY_STORAGE = {
     'PREFIX': MEDIA_URL
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

@@ -20,8 +20,10 @@ from django.urls import path, include
 
 urlpatterns = [
     path('api/', include('api.urls')),
+    path('summernote/', include('django_summernote.urls')),
 ]
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
     prefix_default_language=False
 )
+
