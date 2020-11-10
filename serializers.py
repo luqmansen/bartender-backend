@@ -5,5 +5,5 @@ from api.models import Gallery
 
 class GallerySerializers(serializers.ModelSerializer):
     class Meta:
-        fields = '__all__'
+        exclude = ['created_at']
         model = Gallery
