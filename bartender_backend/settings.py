@@ -4,6 +4,7 @@ import dj_database_url
 import cloudinary
 from django.db.backends.mysql.base import DatabaseWrapper
 
+
 DatabaseWrapper.data_types['DateTimeField'] = 'datetime'
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'cloudinary_storage',
     'cloudinary',
     'api.apps.ApiConfig'
