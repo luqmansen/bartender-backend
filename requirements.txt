@@ -12,6 +12,7 @@ mysqlclient==2.0.1
 Pillow==8.0.1
 ply==3.11
 protobuf==3.13.0
+python-dotenv==0.15.0
 python-magic==0.4.18
 pytz==2020.4
 requests==2.24.0

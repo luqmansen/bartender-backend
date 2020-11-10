@@ -1,6 +1,7 @@
 venv/
 .idea/
 docker/
+.env
 
 secret.sh
 # Byte-compiled / optimized / DLL files

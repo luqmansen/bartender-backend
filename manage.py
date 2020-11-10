@@ -3,6 +3,11 @@
 import os
 import sys
 
+from dotenv import load_dotenv
+
+env_path = os.path.join(os.getcwd(), '.env')
+load_dotenv(dotenv_path=env_path)
+
 
 def main():
     """Run administrative tasks."""
