@@ -69,7 +69,7 @@ WSGI_APPLICATION = 'bartender_backend.wsgi.application'
 db_from_env = dj_database_url.config(
     engine='django.db.backends.mysql',
     env='CLEARDB_DATABASE_URL',
-    conn_max_age=600
+    conn_max_age=60
 )
 DATABASES = {'default': db_from_env}
 
