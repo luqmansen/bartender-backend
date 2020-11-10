@@ -8,14 +8,12 @@ def unique_slug_generator(instance, new_slug=None):
     if new_slug is not None:
         slug = new_slug
     else:
-        slug = slugify(instance.title)[:20]
+        slug = f"{slugify(instance.title)}-{random_string_generator(size=10)}"
+
     Cls = instance.__class__
     qs_exist = Cls.objects.filter(slug=slug).exists()
 
     if qs_exist:
-        new_slug = "{slug}-{randstr}".format(
-            slug=slug, randstr=random_string_generator(size=10)
-        )
         return unique_slug_generator(instance, new_slug=new_slug)
     return slug
 
