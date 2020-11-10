@@ -1,0 +1,301 @@
+{
+	"info": {
+		"_postman_id": "b0890b5d-2379-4018-a4db-b228989a36a3",
+		"name": "Bartender API",
+		"description": "The API is mostly a readonly, since currently we don't need to update stuff, but might change in the future.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Article",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server-address}}/api/article",
+							"host": [
+								"{{server-address}}"
+							],
+							"path": [
+								"api",
+								"article"
+							]
+						},
+						"description": "Get all article list"
+					},
+					"response": [
+						{
+							"name": "List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{server-address}}/api/article",
+									"host": [
+										"{{server-address}}"
+									],
+									"path": [
+										"api",
+										"article"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Tue, 10 Nov 2020 11:57:40 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.8.5"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Accept-Language, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2889"
+								},
+								{
+									"key": "Content-Language",
+									"value": "en-us"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 3,\n        \"title\": \"Article Example\",\n        \"header_image\": \"https://res.cloudinary.com/hfmoruzbm/image/upload/v1/media/images/article/Rectangle_1_ffb3yi\",\n        \"content\": \"<p style=\\\"margin-bottom: 15px; padding: 0px; text-align: justify; font-family: &quot;Open Sans&quot;, Arial, sans-serif;\\\"><span style=\\\"font-weight: 700;\\\">Lorem ipsum dolor sit amet</span></p><p style=\\\"margin-bottom: 15px; padding: 0px; text-align: justify; font-family: &quot;Open Sans&quot;, Arial, sans-serif;\\\"><span style=\\\"font-weight: 700;\\\"><br></span>Consectetur adipiscing elit. Morbi tempor vestibulum elit, at aliquam magna fermentum nec. Phasellus maximus risus ac scelerisque auctor. Donec porta finibus consequat. Ut suscipit vitae mauris tincidunt consectetur. Vivamus gravida placerat felis, eu pretium metus ultricies in.</p><p style=\\\"margin-bottom: 15px; padding: 0px; text-align: justify; font-family: &quot;Open Sans&quot;, Arial, sans-serif;\\\"><span style=\\\"font-weight: 700;\\\">Vestibulum dolor lacus</span></p><p style=\\\"margin-bottom: 15px; padding: 0px; text-align: justify; font-family: &quot;Open Sans&quot;, Arial, sans-serif;\\\">Tristique ut erat eget, hendrerit mattis libero. Sed pellentesque tortor ac sem pellentesque, sed blandit tellus auctor. Suspendisse potenti. Mauris in est non turpis consequat blandit. Nam turpis nunc, feugiat eu mi ac, dictum tempor diam. Integer eu quam ut nisl blandit porta.&nbsp;</p>\",\n        \"slug\": \"article-example-kpvs3wu9qc\"\n    },\n    {\n        \"id\": 4,\n        \"title\": \"Article 2 Example\",\n        \"header_image\": \"https://res.cloudinary.com/hfmoruzbm/image/upload/v1/media/images/article/black_icad3t\",\n        \"content\": \"<p style=\\\"margin-bottom: 15px; padding: 0px; text-align: justify; font-family: &quot;Open Sans&quot;, Arial, sans-serif;\\\"><span style=\\\"font-weight: 700;\\\">Lorem ipsum dolor sit amet</span></p><p style=\\\"margin-bottom: 15px; padding: 0px; text-align: justify; font-family: &quot;Open Sans&quot;, Arial, sans-serif;\\\"><span style=\\\"font-weight: 700;\\\"><br></span>Consectetur adipiscing elit. Morbi tempor vestibulum elit, at aliquam magna fermentum nec. Phasellus maximus risus ac scelerisque auctor. Donec porta finibus consequat. Ut suscipit vitae mauris tincidunt consectetur. Vivamus gravida placerat felis, eu pretium metus ultricies in.</p><p style=\\\"margin-bottom: 15px; padding: 0px; text-align: justify; font-family: &quot;Open Sans&quot;, Arial, sans-serif;\\\"><span style=\\\"font-weight: 700;\\\">Vestibulum dolor lacus</span></p><p style=\\\"margin-bottom: 15px; padding: 0px; text-align: justify; font-family: &quot;Open Sans&quot;, Arial, sans-serif;\\\">Tristique ut erat eget, hendrerit mattis libero. Sed pellentesque tortor ac sem pellentesque, sed blandit tellus auctor. Suspendisse potenti. Mauris in est non turpis consequat blandit. Nam turpis nunc, feugiat eu mi ac, dictum tempor diam. Integer eu quam ut nisl blandit porta.&nbsp;</p>\",\n        \"slug\": \"article-2-example-q9ciw4lwq1\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server-address}}/api/article/{{slug-example}}/",
+							"host": [
+								"{{server-address}}"
+							],
+							"path": [
+								"api",
+								"article",
+								"{{slug-example}}",
+								""
+							]
+						},
+						"description": "Retrieve particular article from the slug"
+					},
+					"response": [
+						{
+							"name": "Detail",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{server-address}}/api/article/{{slug}}",
+									"host": [
+										"{{server-address}}"
+									],
+									"path": [
+										"api",
+										"article",
+										"{{slug}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Tue, 10 Nov 2020 12:20:43 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.8.5"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Accept-Language, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1444"
+								},
+								{
+									"key": "Content-Language",
+									"value": "en-us"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 3,\n    \"title\": \"Article Example\",\n    \"header_image\": \"https://res.cloudinary.com/hfmoruzbm/image/upload/v1/media/images/article/Rectangle_1_ffb3yi\",\n    \"content\": \"<p style=\\\"margin-bottom: 15px; padding: 0px; text-align: justify; font-family: &quot;Open Sans&quot;, Arial, sans-serif;\\\"><span style=\\\"font-weight: 700;\\\">Lorem ipsum dolor sit amet</span></p><p style=\\\"margin-bottom: 15px; padding: 0px; text-align: justify; font-family: &quot;Open Sans&quot;, Arial, sans-serif;\\\"><span style=\\\"font-weight: 700;\\\"><br></span>Consectetur adipiscing elit. Morbi tempor vestibulum elit, at aliquam magna fermentum nec. Phasellus maximus risus ac scelerisque auctor. Donec porta finibus consequat. Ut suscipit vitae mauris tincidunt consectetur. Vivamus gravida placerat felis, eu pretium metus ultricies in.</p><p style=\\\"margin-bottom: 15px; padding: 0px; text-align: justify; font-family: &quot;Open Sans&quot;, Arial, sans-serif;\\\"><span style=\\\"font-weight: 700;\\\">Vestibulum dolor lacus</span></p><p style=\\\"margin-bottom: 15px; padding: 0px; text-align: justify; font-family: &quot;Open Sans&quot;, Arial, sans-serif;\\\">Tristique ut erat eget, hendrerit mattis libero. Sed pellentesque tortor ac sem pellentesque, sed blandit tellus auctor. Suspendisse potenti. Mauris in est non turpis consequat blandit. Nam turpis nunc, feugiat eu mi ac, dictum tempor diam. Integer eu quam ut nisl blandit porta.&nbsp;</p>\",\n    \"slug\": \"article-example-kpvs3wu9qc\"\n}"
+						}
+					]
+				}
+			],
+			"description": "Show article related API",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Gallery",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server-address}}/api/gallery",
+							"host": [
+								"{{server-address}}"
+							],
+							"path": [
+								"api",
+								"gallery"
+							]
+						},
+						"description": "Get all gallery images"
+					},
+					"response": [
+						{
+							"name": "List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{server-address}}/api/gallery",
+									"host": [
+										"{{server-address}}"
+									],
+									"path": [
+										"api",
+										"gallery"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Tue, 10 Nov 2020 12:17:15 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.8.5"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Accept-Language, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "279"
+								},
+								{
+									"key": "Content-Language",
+									"value": "en-us"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"file_name\": \"Doge\",\n        \"image\": \"https://res.cloudinary.com/hfmoruzbm/image/upload/v1/media/images/gallery/bz9t3q58wrf51_qiqnhx\"\n    },\n    {\n        \"id\": 2,\n        \"file_name\": \"Doge2\",\n        \"image\": \"https://res.cloudinary.com/hfmoruzbm/image/upload/v1/media/images/gallery/1_IU3_gLp3V1gFq2deAod9BQ_enn1gv\"\n    }\n]"
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "79d15511-53fb-470d-b4ec-ea15e68d43e1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "3f3edd48-9ab4-4354-acf2-82882f36503b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
