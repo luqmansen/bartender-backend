@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.signals import pre_save
+from django.utils.safestring import mark_safe
 from djmoney.models.fields import MoneyField
 
 from api.utils import unique_slug_generator
@@ -12,7 +13,25 @@ class BaseModel(models.Model):
         abstract = True
 
 
-class Gallery(BaseModel):
+class BaseModelImage(BaseModel):
+    image_field = 'image'
+    scale = 'w_400,c_scale'
+
+    class Meta:
+        abstract = True
+
+    def image_prev(self):
+        if getattr(self, self.image_field):
+            url = getattr(getattr(self, self.image_field), 'url').split(sep='/')
+            url.insert(6, self.scale)
+            return mark_safe('<img src="{}" />'.format("/".join(url)))
+        return '(No Image)'
+
+    image_prev.short_description = 'Image Preview'
+    image_prev.allow_tags = True
+
+
+class Gallery(BaseModelImage):
     file_name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='images/gallery/', null=False)
 
@@ -24,11 +43,12 @@ class Gallery(BaseModel):
         return str(self.file_name)
 
 
-class Article(BaseModel):
+class Article(BaseModelImage):
     title = models.CharField(max_length=100)
     header_image = models.ImageField(upload_to='images/article/', null=False)
     content = models.TextField()
     slug = models.SlugField(max_length=40, null=True, blank=True)
+    image_field = 'header_image'
 
     class Meta:
         verbose_name = 'Artikel'

@@ -1,7 +1,7 @@
 from django.contrib import admin
-from django.utils.html import format_html
-from djangoql.admin import DjangoQLSearchMixin
 from django_summernote.admin import SummernoteModelAdmin
+from djangoql.admin import DjangoQLSearchMixin
+
 from api.models import Gallery, Article, TourismPacket
 
 TITLE = "Website Eduwisata"
@@ -22,21 +22,19 @@ class BaseAdmin(DjangoQLSearchMixin, admin.ModelAdmin):
 @admin.register(Gallery)
 class GalleryAdmin(BaseAdmin):
     list_display = [f.name for f in Gallery._meta.fields if f.name not in SKIP_DISPLAY]
-    list_display += ['preview_image']
-    readonly_fields = []
-
-    def preview_image(self, obj):
-        return format_html(f'<img src="{obj.image.url}" width="300"/>')
-
-    preview_image.short_description = "Image"
+    list_display += ['image_prev']
+    readonly_fields = ['image_prev']
+    display = True
 
 
 @admin.register(Article)
-class ArticleAdmin(SummernoteModelAdmin):
+class ArticleAdmin(SummernoteModelAdmin, BaseAdmin):
     summernote_fields = '__all__'
-    readonly_fields = ('slug',)
+    readonly_fields = ('slug', 'image_prev')
+    display = False
+    list_display = ['title']
 
 
 @admin.register(TourismPacket)
-class ArticleAdmin(SummernoteModelAdmin):
+class TourPacketAdmin(SummernoteModelAdmin):
     summernote_fields = '__all__'
