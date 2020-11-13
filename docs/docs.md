@@ -7,12 +7,16 @@ The API is mostly a readonly, since currently we don't need to update stuff, but
 
 * [Article](#article)
 
-  * [Detail](#1-detail)
-  * [List](#2-list)
+  * [Article Detail](#1-article-detail)
+  * [Article List](#2-article-list)
 
 * [Gallery](#gallery)
 
-  * [List](#1-list)
+  * [Galery List](#1-galery-list)
+
+* [Tourism](#tourism)
+
+  * [packet list](#1-packet-list)
 
 
 --------
@@ -23,7 +27,7 @@ Show article related API
 
 
 
-### 1. Detail
+### 1. Article Detail
 
 
 Retrieve particular article from the slug
@@ -34,7 +38,7 @@ Retrieve particular article from the slug
 ```bash
 Method: GET
 Type: 
-URL: {{server-address}}/api/article/{{slug-example}}/
+URL: {{server-address}}/api/article/{{slug}}
 ```
 
 
@@ -64,7 +68,7 @@ URL: {{server-address}}/api/article/{{slug-example}}/
 
 
 
-### 2. List
+### 2. Article List
 
 
 Get all article list
@@ -75,7 +79,7 @@ Get all article list
 ```bash
 Method: GET
 Type: 
-URL: {{server-address}}/api/article
+URL: {{server-address}}/api/article/
 ```
 
 
@@ -83,11 +87,11 @@ URL: {{server-address}}/api/article
 ***More example Requests/Responses:***
 
 
-##### I. Example Request: List
+##### I. Example Request: Article List
 
 
 
-##### I. Example Response: List
+##### I. Example Response: Article List
 ```js
 [
     {
@@ -118,7 +122,7 @@ URL: {{server-address}}/api/article
 
 
 
-### 1. List
+### 1. Galery List
 
 
 Get all gallery images
@@ -164,6 +168,65 @@ URL: {{server-address}}/api/gallery
 
 
 
+## Tourism
+
+
+
+### 1. packet list
+
+
+
+***Endpoint:***
+
+```bash
+Method: GET
+Type: 
+URL: {{server-address}}/api/tourpacket/
+```
+
+
+
+***More example Requests/Responses:***
+
+
+##### I. Example Request: packet list
+
+
+
+##### I. Example Response: packet list
+```js
+[
+    {
+        "id": 1,
+        "title": "Paket A",
+        "price_currency": "IDR",
+        "price": "140000.00",
+        "content": "<ul><li>Destinasi 1</li><li>Destinasi 2&nbsp;</li><li>Destinasi 3</li><li>Destinasi 4</li></ul>"
+    },
+    {
+        "id": 2,
+        "title": "Paket B",
+        "price_currency": "IDR",
+        "price": "130000.00",
+        "content": "<ul><li>Destinasi 1</li><li>Destinasi 2&nbsp;</li><li>Destinasi 3</li><li>Destinasi 4</li></ul>"
+    },
+    {
+        "id": 3,
+        "title": "Pake C",
+        "price_currency": "IDR",
+        "price": "130000.00",
+        "content": "<ul><li>Destinasi 1</li><li>Destinasi 2&nbsp;</li><li>Destinasi 3</li><li>Destinasi 4</li></ul>"
+    }
+]
+```
+
+
+***Status Code:*** 200
+
+<br>
+
+
+
 ---
 [Back to top](#bartender-api)
-> Made with &#9829; by [thedevsaddam](https://github.com/thedevsaddam) | Generated at: 2020-11-10 19:56:24 by [docgen](https://github.com/thedevsaddam/docgen)
+> Made with &#9829; by [thedevsaddam](https://github.com/thedevsaddam) | Generated at: 2020-11-13 13:59:02 by [docgen](https://github.com/thedevsaddam/docgen)

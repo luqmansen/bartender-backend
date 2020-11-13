@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.signals import pre_save
+from djmoney.models.fields import MoneyField
 
 from api.utils import unique_slug_generator
 
@@ -31,6 +32,19 @@ class Article(BaseModel):
 
     class Meta:
         verbose_name = 'Artikel'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.title
+
+
+class TourismPacket(BaseModel):
+    title = models.CharField(max_length=100)
+    price = MoneyField(default_currency='IDR', max_digits=10)
+    content = models.TextField()
+
+    class Meta:
+        verbose_name = 'Paket Wisata'
         verbose_name_plural = verbose_name
 
     def __str__(self):

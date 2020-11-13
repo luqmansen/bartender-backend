@@ -1,8 +1,7 @@
 from django.contrib import admin
 from djangoql.admin import DjangoQLSearchMixin
 from django_summernote.admin import SummernoteModelAdmin
-from api.models import Gallery, Article
-
+from api.models import Gallery, Article, TourismPacket
 
 TITLE = "Website Eduwisata"
 
@@ -28,3 +27,8 @@ class GalleryAdmin(BaseAdmin):
 class ArticleAdmin(SummernoteModelAdmin):
     summernote_fields = '__all__'
     readonly_fields = ('slug',)
+
+
+@admin.register(TourismPacket)
+class ArticleAdmin(SummernoteModelAdmin):
+    summernote_fields = '__all__'

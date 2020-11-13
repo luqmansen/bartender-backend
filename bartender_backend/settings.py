@@ -1,8 +1,10 @@
 import os
+from decimal import ROUND_HALF_EVEN
 from pathlib import Path
 import dj_database_url
 import cloudinary
 from django.db.backends.mysql.base import DatabaseWrapper
+from moneyed.localization import _FORMATTER
 
 
 DatabaseWrapper.data_types['DateTimeField'] = 'datetime'
@@ -35,6 +37,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'cloudinary_storage',
     'cloudinary',
+    'djmoney',
     'api.apps.ApiConfig',
 ]
 
@@ -139,3 +142,13 @@ CLOUDINARY_STORAGE = {
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+# DJANGO MONEY STUFF
+_FORMATTER.add_formatting_definition(
+    'id_ID',
+    group_size=3, group_separator=".", decimal_point=",",
+    positive_sign="",  trailing_positive_sign="",
+    negative_sign="-", trailing_negative_sign="",
+    rounding_method=ROUND_HALF_EVEN
+)
