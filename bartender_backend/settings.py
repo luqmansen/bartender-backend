@@ -12,6 +12,7 @@ DatabaseWrapper.data_types['DateTimeField'] = 'datetime'
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
+CORS_ORIGIN_ALLOW_ALL = True
 
 LANGUAGE_CODE = 'en-us'
 USE_I18N = True
@@ -33,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'django_summernote',
     'rest_framework',
     'cloudinary_storage',
@@ -40,8 +42,8 @@ INSTALLED_APPS = [
     'djmoney',
     'api.apps.ApiConfig',
 ]
-
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
