@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api.models import Gallery, Article, TourismPacket
+from api.models import Gallery, Article, TourismPackage
 
 
 class GallerySerializers(serializers.ModelSerializer):
@@ -15,7 +15,7 @@ class ArticleSerializers(serializers.ModelSerializer):
         model = Article
 
 
-class TourismPacketSerializers(serializers.ModelSerializer):
+class TourismPackageSerializers(serializers.ModelSerializer):
     class Meta:
         exclude = ['created_at']
-        model = TourismPacket
+        model = TourismPackage

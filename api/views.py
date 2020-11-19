@@ -3,8 +3,8 @@ from rest_framework import viewsets
 
 from rest_framework.response import Response
 
-from api.models import Gallery, Article, TourismPacket
-from serializers import GallerySerializers, ArticleSerializers, TourismPacketSerializers
+from api.models import Gallery, Article, TourismPackage
+from serializers import GallerySerializers, ArticleSerializers, TourismPackageSerializers
 
 
 class GalleryViewSet(viewsets.ReadOnlyModelViewSet):
@@ -21,6 +21,6 @@ class ArticleViewSet(viewsets.ReadOnlyModelViewSet):
         return Response(self.serializer_class(objs).data)
 
 
-class TourismPacketViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = TourismPacket.objects.all()
-    serializer_class = TourismPacketSerializers
+class TourismPackageViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = TourismPackage.objects.all()
+    serializer_class = TourismPackageSerializers

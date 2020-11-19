@@ -58,7 +58,7 @@ class Article(BaseModelImage):
         return self.title
 
 
-class TourismPacket(BaseModel):
+class TourismPackage(BaseModel):
     title = models.CharField(max_length=100)
     price = MoneyField(default_currency='IDR', max_digits=10)
     content = models.TextField()

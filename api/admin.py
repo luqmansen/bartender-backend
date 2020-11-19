@@ -2,7 +2,7 @@ from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
 from djangoql.admin import DjangoQLSearchMixin
 
-from api.models import Gallery, Article, TourismPacket
+from api.models import Gallery, Article, TourismPackage
 
 TITLE = "Website Eduwisata"
 SKIP_DISPLAY = ['created_at']
@@ -35,6 +35,6 @@ class ArticleAdmin(SummernoteModelAdmin, BaseAdmin):
     list_display = ['title']
 
 
-@admin.register(TourismPacket)
-class TourPacketAdmin(SummernoteModelAdmin):
+@admin.register(TourismPackage)
+class TourPackageAdmin(SummernoteModelAdmin):
     summernote_fields = '__all__'
