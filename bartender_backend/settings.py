@@ -6,7 +6,6 @@ import cloudinary
 from django.db.backends.mysql.base import DatabaseWrapper
 from moneyed.localization import _FORMATTER
 
-
 DatabaseWrapper.data_types['DateTimeField'] = 'datetime'
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -145,12 +144,13 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-
 # DJANGO MONEY STUFF
 _FORMATTER.add_formatting_definition(
     'id_ID',
     group_size=3, group_separator=".", decimal_point=",",
-    positive_sign="",  trailing_positive_sign="",
+    positive_sign="", trailing_positive_sign="",
     negative_sign="-", trailing_negative_sign="",
     rounding_method=ROUND_HALF_EVEN
 )
+USE_THOUSAND_SEPARATOR = True
+THOUSAND_SEPARATOR = '.'

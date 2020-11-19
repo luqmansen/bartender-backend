@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 from api.models import Gallery, Article, TourismPackage
-from serializers import GallerySerializers, ArticleSerializers, TourismPackageSerializers
+from api.serializers import GallerySerializers, ArticleSerializers, TourismPackageSerializers
 
 
 class GalleryViewSet(viewsets.ReadOnlyModelViewSet):

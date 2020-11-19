@@ -60,7 +60,7 @@ class Article(BaseModelImage):
 
 class TourismPackage(BaseModel):
     title = models.CharField(max_length=100)
-    price = MoneyField(default_currency='IDR', max_digits=10)
+    price = MoneyField(default_currency='IDR', max_digits=10, decimal_places=0)
     content = models.TextField()
 
     class Meta:
