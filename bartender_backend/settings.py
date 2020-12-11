@@ -27,6 +27,8 @@ if os.environ.get('DEPLOY') in ['TEST', 'DEV']:
     ALLOWED_HOSTS += ['0.0.0.0', 'localhost']
 
 INSTALLED_APPS = [
+    # 'material.admin',
+    # 'material.admin.default',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -34,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'djangoql',
     'django_summernote',
     'rest_framework',
     'cloudinary_storage',
