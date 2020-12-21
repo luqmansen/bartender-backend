@@ -2,7 +2,7 @@ from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
 from djangoql.admin import DjangoQLSearchMixin
 
-from api.models import Gallery, Article, TourismPackage
+from api.models import Gallery, Content, TourismPackage
 
 TITLE = "Website Eduwisata"
 SKIP_DISPLAY = ['created_at']
@@ -27,10 +27,10 @@ class GalleryAdmin(BaseAdmin):
     display = True
 
 
-@admin.register(Article)
-class ArticleAdmin(SummernoteModelAdmin, BaseAdmin):
+@admin.register(Content)
+class ContentAdmin(SummernoteModelAdmin, BaseAdmin):
     summernote_fields = '__all__'
-    readonly_fields = ('slug', 'image_prev')
+    readonly_fields = ('slug', 'image_prev', 'qr_code', 'qr_code_preview')
     display = False
     list_display = ['title']
 

@@ -3,7 +3,7 @@ from rest_framework import viewsets
 
 from rest_framework.response import Response
 
-from api.models import Gallery, Article, TourismPackage
+from api.models import Gallery, Content, TourismPackage
 from api.serializers import GallerySerializers, ArticleSerializers, TourismPackageSerializers
 
 
@@ -12,8 +12,8 @@ class GalleryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = GallerySerializers
 
 
-class ArticleViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Article.objects.all()
+class ContentViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Content.objects.all()
     serializer_class = ArticleSerializers
 
     def retrieve(self, request, *args, **kwargs):

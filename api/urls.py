@@ -1,11 +1,11 @@
 from django.urls import path
 from django.views.decorators.cache import cache_page
 
-from api.views import GalleryViewSet, ArticleViewSet, TourismPackageViewSet
+from api.views import GalleryViewSet, ContentViewSet, TourismPackageViewSet
 
 gallery_list = GalleryViewSet.as_view({'get': 'list'})
-article_list = ArticleViewSet.as_view({'get': 'list'})
-article_detail = ArticleViewSet.as_view({'get': 'retrieve'})
+article_list = ContentViewSet.as_view({'get': 'list'})
+article_detail = ContentViewSet.as_view({'get': 'retrieve'})
 tourism_package_list = TourismPackageViewSet.as_view({'get': 'list'})
 
 urlpatterns = [

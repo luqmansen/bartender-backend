@@ -1,9 +1,11 @@
+import os
+
 from django.db import models
 from django.db.models.signals import pre_save
 from django.utils.safestring import mark_safe
 from djmoney.models.fields import MoneyField
 
-from api.utils import unique_slug_generator
+from api.utils import unique_slug_generator, generate_qr
 
 
 class BaseModel(models.Model):
@@ -12,6 +14,13 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+def image_prev(image_url, scale='w_400,c_scale'):
+    # specifically for cloudinary url
+    url = image_url.split(sep='/')
+    url.insert(6, scale)
+    return mark_safe('<img src="{}" />'.format("/".join(url)))
 
 
 class BaseModelImage(BaseModel):
@@ -23,9 +32,8 @@ class BaseModelImage(BaseModel):
 
     def image_prev(self):
         if getattr(self, self.image_field):
-            url = getattr(getattr(self, self.image_field), 'url').split(sep='/')
-            url.insert(6, self.scale)
-            return mark_safe('<img src="{}" />'.format("/".join(url)))
+            url = getattr(getattr(self, self.image_field), 'url')
+            return image_prev(url)
         return '(No Image)'
 
     image_prev.short_description = 'Image Preview'
@@ -44,15 +52,22 @@ class Gallery(BaseModelImage):
         return str(self.file_name)
 
 
-class Article(BaseModelImage):
+class Content(BaseModelImage):
     title = models.CharField(max_length=100)
-    header_image = models.ImageField(upload_to='images/article/', null=False)
+    header_image = models.ImageField(upload_to='images/content/', null=False)
     content = models.TextField()
     slug = models.SlugField(max_length=40, null=True, blank=True)
+    qr_code = models.ImageField(upload_to='images/content/', null=False)
     image_field = 'header_image'
 
+    def qr_code_preview(self):
+        return image_prev(self.qr_code.url)
+
+    qr_code_preview.short_description = 'Image Preview'
+    qr_code_preview.allow_tags = True
+
     class Meta:
-        verbose_name = 'Artikel'
+        verbose_name = 'Konten'
         verbose_name_plural = verbose_name
 
     def __str__(self):
@@ -72,9 +87,12 @@ class TourismPackage(BaseModel):
         return self.title
 
 
-def pre_save_receiver(sender, instance, *args, **kwargs):
+def pre_save_receiver(sender, instance: Content, *args, **kwargs):
     if not instance.slug:
-        instance.slug = unique_slug_generator(instance)
+        slug = unique_slug_generator(instance)
+        instance.slug = slug
+        instance.header_image.name = '_'.join([slug, instance.header_image.name])
+        instance.qr_code = generate_qr('/'.join([os.getenv('HOST'), 'content', instance.slug]))
 
 
-pre_save.connect(pre_save_receiver, sender=Article)
+pre_save.connect(pre_save_receiver, sender=Content)

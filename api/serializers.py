@@ -1,7 +1,7 @@
 from django.contrib.humanize.templatetags.humanize import intcomma
 from rest_framework import serializers
 
-from api.models import Gallery, Article, TourismPackage
+from api.models import Gallery, Content, TourismPackage
 
 
 class GallerySerializers(serializers.ModelSerializer):
@@ -13,7 +13,7 @@ class GallerySerializers(serializers.ModelSerializer):
 class ArticleSerializers(serializers.ModelSerializer):
     class Meta:
         exclude = ['created_at']
-        model = Article
+        model = Content
 
 
 class TourismPackageSerializers(serializers.ModelSerializer):
