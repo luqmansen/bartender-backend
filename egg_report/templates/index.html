@@ -1,0 +1,19 @@
+{% load static %}
+
+{#<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">#}
+<body>
+    <ul>
+        {% for i in cage_num %}
+            <li>{{ i.number }} {{ i.is_empty }}</li>
+        {% endfor %}
+    </ul>
+</body>
+
+<form action="{% url 'polls:submit_report' %}" method="post">
+	{% csrf_token %}
+	{% for cage in cage_num %}
+		<input type="checkbox" name="report" id="cage{{ forloop.counter }}" value="{{ cage.id }}" />
+		<label for="cage{{ forloop.counter }}">{{ cage.number }}</label><br><br>
+	{% endfor %}
+	<input type="submit" value="Kirim">
+</form>

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'djmoney',
     'api.apps.ApiConfig',
+    'egg_report.apps.EggReportConfig'
 ]
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
