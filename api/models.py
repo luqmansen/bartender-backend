@@ -55,6 +55,11 @@ class Gallery(BaseModelImage):
 class Content(BaseModelImage):
     title = models.CharField(max_length=100)
     header_image = models.ImageField(upload_to='images/content/', null=False)
+    gallery_image_1 = models.ImageField(upload_to='images/content/', default=None)
+    gallery_image_2 = models.ImageField(upload_to='images/content/', default=None)
+    gallery_image_3 = models.ImageField(upload_to='images/content/', default=None)
+
+    fun_fact = models.TextField(default=None)
     content = models.TextField()
     slug = models.SlugField(max_length=40, null=True, blank=True)
     qr_code = models.ImageField(upload_to='images/content/', null=False)

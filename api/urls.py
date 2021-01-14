@@ -10,7 +10,7 @@ tourism_package_list = TourismPackageViewSet.as_view({'get': 'list'})
 
 urlpatterns = [
     path('gallery/', cache_page(60)(gallery_list)),
-    path('article/', cache_page(60)(article_list), name='article-list'),
-    path('article/<str:slug>/', cache_page(60)(article_detail), name='article-detail'),
+    path('content/', cache_page(60)(article_list), name='article-list'),
+    path('content/<str:slug>/', cache_page(60)(article_detail), name='article-detail'),
     path('tourpackage/', cache_page(60)(tourism_package_list))
 ]
