@@ -97,7 +97,7 @@ def pre_save_receiver(sender, instance: Content, *args, **kwargs):
         slug = unique_slug_generator(instance)
         instance.slug = slug
         instance.header_image.name = '_'.join([slug, instance.header_image.name])
-        instance.qr_code = generate_qr('/'.join([os.getenv('HOST'), 'content', instance.slug]))
+        instance.qr_code = generate_qr('/'.join([os.getenv('FE_HOST'), 'content', instance.slug]))
 
 
 pre_save.connect(pre_save_receiver, sender=Content)
