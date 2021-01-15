@@ -86,6 +86,7 @@ db_from_env = dj_database_url.config(
     env='CLEARDB_DATABASE_URL',
     conn_max_age=60
 )
+db_from_env['OPTIONS'] = {'charset': 'utf8mb4'}
 DATABASES = {'default': db_from_env}
 
 # Password validation
