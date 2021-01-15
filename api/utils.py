@@ -34,7 +34,7 @@ def generate_qr(slug):
 
     img_io = BytesIO()
     img.save(img_io, format='JPEG', quality=100)
-    img_content = ContentFile(img_io.getvalue(), slug)
+    img_content = ContentFile(img_io.getvalue(), slug.split('/')[-1])
     return img_content
 
 
