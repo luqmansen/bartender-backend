@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
@@ -23,17 +25,19 @@ class ReportView(generic.ListView):
 
 def submit_report(request):
     data = [int(i) for i in dict(request.POST).get('report')]
+    date = request.POST.get('input_date', datetime.now().date())
     cage_list = CageNum.objects.all().values_list('id',flat=True)
     bulk_report = []
-    print(cage_list)
-    print(data)
+
+    # import pdb;pdb.set_trace()
     for cage in cage_list:
         print(cage)
         egg = True if cage in data else False
         bulk_report.append(
             Report(
                 cage_num_id=cage,
-                is_lay_egg=egg
+                is_lay_egg=egg,
+                date=datetime.strptime(date, '%Y-%M-%d')
             )
         )
 
