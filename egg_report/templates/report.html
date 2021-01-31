@@ -9,6 +9,7 @@
 Hari Ini : {{ today }}
 
 <h4>Produksi Per Hari</h4>
+<canvas id="myChart"></canvas>
 <table style="width:100%">
     <tr>
         <th>Tanggal</th>
@@ -21,6 +22,21 @@ Hari Ini : {{ today }}
         </tr>
     {% endfor %}
 </table>
+
+<h4>Produksi Per Minggu</h4>
+<table style="width:100%">
+    <tr>
+        <th>Minggu</th>
+        <th>Produksi</th>
+    </tr>
+    {% for report in by_week %}
+        <tr>
+            <td>{{ report.week }}</td>
+            <td>{{ report.c }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
 <h4>Produksi Per Ayam</h4>
 <table style="width:100%">
     <tr>
@@ -36,7 +52,25 @@ Hari Ini : {{ today }}
         </tr>
     {% endfor %}
 </table>
-
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+        integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+        crossorigin="anonymous"></script>
+{{ by_date_list |json_script:'by_date_list'}}
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+    type: 'bar',
 
-{#todo: add bar chart for result#}
+    // The data for our dataset
+    data: {
+        labels: JSON.parse(document.getElementById('by_date_list').textContent),
+        datasets: [{
+            label: 'Telur',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: {{ by_date_count }}
+        }]
+    },
+});
+</script>

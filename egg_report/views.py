@@ -1,8 +1,11 @@
 from datetime import datetime
+from urllib.parse import unquote_plus
 
-from django.db.models import Count
+from django.db.models import Count, Sum
+from django.db.models.functions import ExtractWeek
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.utils.safestring import mark_safe
 from django.views import generic
 
 from egg_report.models import Cage, Report
@@ -40,6 +43,12 @@ class ReportView(generic.ListView):
             .values('date').annotate(c=Count('id')).order_by('-date')[:7]
         return q
 
+    def get_report_by_week(self):
+        q = self.get_queryset().filter(is_lay_egg=True)\
+                .annotate(week=ExtractWeek('date'))\
+                .values('week').annotate(c=Count('id')).order_by('-week')
+        return q
+
     def get_report_by_cage(self):
         q = self.get_queryset() \
             .filter(is_lay_egg=True) \
@@ -53,6 +62,10 @@ class ReportView(generic.ListView):
         ctx = super(ReportView, self).get_context_data()
         ctx['today'] = self.get_today_report()
         ctx['by_date'] = self.get_report_by_date()
+
+        ctx['by_date_list'] = [i['date'].strftime("%m/%d/%Y") for i in self.get_report_by_date()]
+        ctx['by_date_count'] = [i['c'] for i in self.get_report_by_date()]
+        ctx['by_week'] = self.get_report_by_week()
         ctx['by_cage'] = self.get_report_by_cage()
         return ctx
 
