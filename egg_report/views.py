@@ -1,11 +1,9 @@
 from datetime import datetime
-from urllib.parse import unquote_plus
 
-from django.db.models import Count, Sum
+from django.db.models import Count
 from django.db.models.functions import ExtractWeek
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.utils.safestring import mark_safe
 from django.views import generic
 
 from egg_report.models import Cage, Report
@@ -39,14 +37,14 @@ class ReportView(generic.ListView):
         return today
 
     def get_report_by_date(self):
-        q = self.get_queryset().filter(is_lay_egg=True)\
-            .values('date').annotate(c=Count('id')).order_by('-date')[:7]
+        q = self.get_queryset().filter(is_lay_egg=True) \
+                .values('date').annotate(c=Count('id')).order_by('-date')[:7]
         return q
 
     def get_report_by_week(self):
-        q = self.get_queryset().filter(is_lay_egg=True)\
-                .annotate(week=ExtractWeek('date'))\
-                .values('week').annotate(c=Count('id')).order_by('-week')
+        q = self.get_queryset().filter(is_lay_egg=True) \
+            .annotate(week=ExtractWeek('date')) \
+            .values('week').annotate(c=Count('id')).order_by('-week')
         return q
 
     def get_report_by_cage(self):
@@ -76,7 +74,9 @@ def submit_report(request):
     cage_list = Cage.objects.all().values_list('id', flat=True)
     bulk_report = []
 
-    # import pdb;pdb.set_trace()
+    last_report = Report.objects.filter(date=datetime.now().date()).all()
+    if last_report is not None:
+        last_report.delete()
     for cage in cage_list:
         egg = True if cage in data else False
         bulk_report.append(
@@ -86,6 +86,7 @@ def submit_report(request):
                 date=datetime.strptime(date, '%Y-%M-%d')
             )
         )
-
     Report.objects.bulk_create(bulk_report)
-    return HttpResponseRedirect(reverse('polls:report'))
+
+
+    return HttpResponseRedirect(reverse('egg_report:report'))
