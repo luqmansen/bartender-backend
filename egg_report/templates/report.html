@@ -1,12 +1,42 @@
 {% load static %}
 
-{#<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">#}
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
 <body>
-    <ul>
-        {% for i in report %}
-            <li>{{ i.date }} {{ i.cage_num_id }} {{ i.is_lay_egg }}</li>
-        {% endfor %}
-    </ul>
+Hari Ini : {{ today }}
+
+<h4>Produksi Per Hari</h4>
+<table style="width:100%">
+    <tr>
+        <th>Tanggal</th>
+        <th>Produksi</th>
+    </tr>
+    {% for report in by_date %}
+        <tr>
+            <td>{{ report.date }}</td>
+            <td>{{ report.c }}</td>
+        </tr>
+    {% endfor %}
+</table>
+<h4>Produksi Per Ayam</h4>
+<table style="width:100%">
+    <tr>
+        <th>Nomor Kandang</th>
+        <th>Posisi</th>
+        <th>Produksi</th>
+    </tr>
+    {% for report in by_cage %}
+        <tr>
+            <td>{{ report.cage_num__number }}</td>
+            <td>{{ report.cage_num__position }}</td>
+            <td>{{ report.c }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
 </body>
 
 {#todo: add bar chart for result#}

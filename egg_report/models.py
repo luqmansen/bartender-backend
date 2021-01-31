@@ -2,8 +2,13 @@ from django.db import models
 from django.utils.timezone import now
 
 
-class CageNum(models.Model):
-    number = models.IntegerField(unique=True)
+class Cage(models.Model):
+    number = models.IntegerField()
+    CAGE_POS = [
+        ('L', 'Kiri'),
+        ('R', 'Kanan'),
+    ]
+    position = models.CharField(choices=CAGE_POS, max_length=1)
     is_empty = models.BooleanField(default=False)
 
     def __str__(self):
@@ -15,8 +20,7 @@ class Report(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     date = models.DateField(default=now)
     cage_num = models.ForeignKey(
-        to=CageNum,
-        to_field='number',
+        to=Cage,
         on_delete=models.CASCADE
     )
     is_lay_egg = models.BooleanField(default=False)

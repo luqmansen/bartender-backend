@@ -1,29 +1,41 @@
 {% load static %}
 <head>
-{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>#}
 </head>
 <style>
-    .main-checkbox {
-        -webkit-columns: 4;
-        -moz-columns: 4;
-        columns: 4;
+    .row {
+        display: flex;
     }
 
-        input[type=checkbox] {
-      /* All browsers except webkit*/
-      transform: scale(2);
-      /* Webkit browsers*/
-      -webkit-transform: scale(2);
+    .column {
+        flex: 50%;
+    }
+
+    input[type=checkbox] {
+        transform: scale(4);
+        -webkit-transform: scale(2);
+    }
 
 </style>
 <body>
-<form action="{% url 'polls:submit_report' %}" method="post">
+    <a href="{% url 'egg_report:report'  %}">Rekap</a>
+    <br>
+    <br>
+<form action="{% url 'egg_report:submit_report' %}" method="post">
     {% csrf_token %}
-    <div class="main-checkbox">
-        {% for cage in cage_num %}
-            <input type="checkbox" name="report" id="cage{{ forloop.counter }}" value="{{ cage.id }}"/>
-            <label for="cage{{ forloop.counter }}">{{ cage.number }}</label><br><br>
-        {% endfor %}
+
+    <div class="row">
+        <div class="column">
+            {% for cage in left %}
+                <input type="checkbox" name="report" id="cage{{ forloop.counter }}" value="{{ cage.id }}"/>
+                <label for="cage{{ forloop.counter }}">{{ cage.number }}</label><br><br>
+            {% endfor %}
+        </div>
+        <div class="column">
+            {% for cage in right %}
+                <input type="checkbox" name="report" id="cage{{ forloop.counter }}" value="{{ cage.id }}"/>
+                <label for="cage{{ forloop.counter }}">{{ cage.number }}</label><br><br>
+            {% endfor %}
+        </div>
     </div>
     <label for="input_date">Tanggal :</label>
     <input type="date" id="input_date" name="input_date">
