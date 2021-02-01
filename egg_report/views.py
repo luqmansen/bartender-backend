@@ -31,9 +31,8 @@ class ReportView(generic.ListView):
         return Report.objects.all()
 
     def get_today_report(self):
-        today = self.get_queryset().filter(
-            date=datetime.now().date(),
-            is_lay_egg=True).count()
+        today = self.get_queryset().filter(date=datetime.now().date(),is_lay_egg=True)
+        # import pdb;pdb.set_trace()
         return today
 
     def get_report_by_date(self):
@@ -74,8 +73,9 @@ def submit_report(request):
         return HttpResponseRedirect(reverse('egg_report:report'))
 
     date = request.POST.get('input_date', datetime.now().date())
-    last_report = Report.objects.filter(date=datetime.now().date()).all()
-    if last_report is not None:
+
+    last_report = Report.objects.filter(date=datetime.strptime(date, '%Y-%M-%d'))
+    if last_report.count() > 0:
         last_report.delete()
 
     bulk_report = []
