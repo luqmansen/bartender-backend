@@ -24,7 +24,7 @@ if os.getenv('DEPLOY') in ['LIVE', 'PROD']:
 
 ALLOWED_HOSTS = [os.getenv('HOST')]
 if os.environ.get('DEPLOY') in ['TEST', 'DEV']:
-    ALLOWED_HOSTS += ['0.0.0.0', 'localhost']
+    ALLOWED_HOSTS += ['*']
 
 INSTALLED_APPS = [
     # 'material.admin',
