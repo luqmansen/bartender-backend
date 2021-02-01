@@ -2,8 +2,8 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="mobile-web-app-capable" content="yes">
-      <link rel="shortcut icon" href={% static 'favicon.png' %}>
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" href={% static 'favicon.png' %}>
 
 </head>
 <style>
@@ -19,6 +19,24 @@
         transform: scale(4);
         -webkit-transform: scale(2);
     }
+
+    input[type=submit] {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        border-radius: 8px;
+    }
+
+    .buttonHolder {
+        text-align: center;
+    }
+
 
 </style>
 <body>
@@ -47,7 +65,9 @@
     <label for="input_date">Tanggal :</label>
     <input type="date" id="input_date" data-date-format="DD MMMM YYYY" name="input_date">
     <br>
-    <input type="submit" value="Kirim">
+    <div class="buttonHolder">
+        <input type="submit" value="Kirim">
+    </div>
 </form>
 </body>
 <script>
