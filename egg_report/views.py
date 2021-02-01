@@ -70,7 +70,7 @@ class ReportView(generic.ListView):
 
 def submit_report(request):
     data = dict(request.POST).get('report')
-    if report is None:
+    if data is None:
         return HttpResponseRedirect(reverse('egg_report:report'))
 
     date = request.POST.get('input_date', datetime.now().date())
