@@ -59,9 +59,11 @@ class ReportView(generic.ListView):
         ctx = super(ReportView, self).get_context_data()
         ctx['today'] = self.get_today_report()
 
-        ctx['by_date'] = self.get_report_by_date()
-        ctx['by_date_list'] = [i['date'].strftime("%m/%d/%Y") for i in self.get_report_by_date()]
-        ctx['by_date_count'] = [i['c'] for i in self.get_report_by_date()]
+        by_date = self.get_report_by_date()
+        ctx['by_date'] = by_date
+        by_date = sorted(by_date, key=lambda x: x['date'])
+        ctx['by_date_list'] = [i['date'].strftime("%m/%d/%Y") for i in by_date]
+        ctx['by_date_count'] = [i['c'] for i in by_date]
 
         ctx['by_week'] = self.get_report_by_week()
 

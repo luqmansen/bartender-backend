@@ -104,7 +104,7 @@
                 {% for report in by_cage %}
                     <tr>
                         <td>{{ report.cage_num__number }}</td>
-                        <td>{{ report.cage_num__position }}</td>
+                        <td>{% if report.cage_num__position == 'L' %} KIRI {% else %} KANAN {% endif %}</td>
                         <td>{{ report.c }}</td>
                     </tr>
                 {% endfor %}
