@@ -17,20 +17,22 @@
 
 </style>
 <body>
-    <a href="{% url 'egg_report:report'  %}">Rekap</a>
-    <br>
-    <br>
+<a href="{% url 'egg_report:report' %}">Rekap</a>
+<br>
+<br>
 <form action="{% url 'egg_report:submit_report' %}" method="post">
     {% csrf_token %}
 
     <div class="row">
         <div class="column">
+            <h2>Kiri</h2>
             {% for cage in left %}
                 <input type="checkbox" name="report" id="cage{{ forloop.counter }}" value="{{ cage.id }}"/>
                 <label for="cage{{ forloop.counter }}">{{ cage.number }}</label><br><br>
             {% endfor %}
         </div>
         <div class="column">
+            <h2>Kanan</h2>
             {% for cage in right %}
                 <input type="checkbox" name="report" id="cage{{ forloop.counter }}" value="{{ cage.id }}"/>
                 <label for="cage{{ forloop.counter }}">{{ cage.number }}</label><br><br>
@@ -38,7 +40,7 @@
         </div>
     </div>
     <label for="input_date">Tanggal :</label>
-    <input type="date" id="input_date" name="input_date">
+    <input type="date" id="input_date" data-date-format="DD MMMM YYYY" name="input_date">
     <br>
     <input type="submit" value="Kirim">
 </form>

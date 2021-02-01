@@ -61,8 +61,6 @@ Hari Ini : {{ today }}
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
     type: 'bar',
-
-    // The data for our dataset
     data: {
         labels: JSON.parse(document.getElementById('by_date_list').textContent),
         datasets: [{
