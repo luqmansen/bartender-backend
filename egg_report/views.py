@@ -31,8 +31,8 @@ class ReportView(generic.ListView):
         return Report.objects.all()
 
     def get_today_report(self):
-        today = self.get_queryset().filter(date=datetime.now().date(),is_lay_egg=True)
-        # import pdb;pdb.set_trace()
+        today = self.get_queryset()\
+            .filter(date=datetime.now().date(), is_lay_egg=True).count()
         return today
 
     def get_report_by_date(self):
@@ -58,12 +58,16 @@ class ReportView(generic.ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super(ReportView, self).get_context_data()
         ctx['today'] = self.get_today_report()
-        ctx['by_date'] = self.get_report_by_date()
 
+        ctx['by_date'] = self.get_report_by_date()
         ctx['by_date_list'] = [i['date'].strftime("%m/%d/%Y") for i in self.get_report_by_date()]
         ctx['by_date_count'] = [i['c'] for i in self.get_report_by_date()]
+
         ctx['by_week'] = self.get_report_by_week()
+
         ctx['by_cage'] = self.get_report_by_cage()
+        ctx['by_cage_list'] = [f"{i['cage_num__number']} {i['cage_num__position']}" for i in self.get_report_by_cage()]
+        ctx['by_cage_count'] = [i['c'] for i in self.get_report_by_cage()]
         return ctx
 
 
@@ -74,7 +78,7 @@ def submit_report(request):
 
     date = request.POST.get('input_date', datetime.now().date())
 
-    last_report = Report.objects.filter(date=datetime.strptime(date, '%Y-%M-%d'))
+    last_report = Report.objects.filter(date=datetime.strptime(date, '%Y-%m-%d'))
     if last_report.count() > 0:
         last_report.delete()
 
@@ -88,7 +92,7 @@ def submit_report(request):
             Report(
                 cage_num_id=cage,
                 is_lay_egg=egg,
-                date=datetime.strptime(date, '%Y-%M-%d')
+                date=datetime.strptime(date, '%Y-%m-%d')
             )
         )
     Report.objects.bulk_create(bulk_report)

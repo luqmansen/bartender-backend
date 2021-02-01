@@ -4,71 +4,168 @@
     table, th, td {
         border: 1px solid black;
     }
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+    }
+
+
+    .styled-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .styled-table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    .styled-table th,
+    .styled-table td {
+        padding: 12px 15px;
+    }
+
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
 </style>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 <body>
-Hari Ini : {{ today }}
+<h4>Hari Ini : {{ today }}
+    <h4>
 
-<h4>Produksi Per Hari</h4>
-<canvas id="myChart"></canvas>
-<table style="width:100%">
-    <tr>
-        <th>Tanggal</th>
-        <th>Produksi</th>
-    </tr>
-    {% for report in by_date %}
-        <tr>
-            <td>{{ report.date }}</td>
-            <td>{{ report.c }}</td>
-        </tr>
-    {% endfor %}
-</table>
+        <h4>Produksi Per Hari</h4>
+        <canvas id="by_day"></canvas>
+        <div style="overflow-x:auto;">
+            <table class="styled-table" style="width:100%">
+                <tr>
+                    <th>Tanggal</th>
+                    <th>Produksi</th>
+                </tr>
+                {% for report in by_date %}
+                    <tr>
+                        <td>{{ report.date }}</td>
+                        <td>{{ report.c }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
 
-<h4>Produksi Per Minggu</h4>
-<table style="width:100%">
-    <tr>
-        <th>Minggu</th>
-        <th>Produksi</th>
-    </tr>
-    {% for report in by_week %}
-        <tr>
-            <td>{{ report.week }}</td>
-            <td>{{ report.c }}</td>
-        </tr>
-    {% endfor %}
-</table>
+        <h4>Produksi Per Minggu</h4>
+        <div style="overflow-x:auto;">
+            <table class="styled-table" style="width:100%">
 
-<h4>Produksi Per Ayam</h4>
-<table style="width:100%">
-    <tr>
-        <th>Nomor Kandang</th>
-        <th>Posisi</th>
-        <th>Produksi</th>
-    </tr>
-    {% for report in by_cage %}
-        <tr>
-            <td>{{ report.cage_num__number }}</td>
-            <td>{{ report.cage_num__position }}</td>
-            <td>{{ report.c }}</td>
-        </tr>
-    {% endfor %}
-</table>
+                <tr>
+                    <th>Minggu</th>
+                    <th>Produksi</th>
+                </tr>
+                {% for report in by_week %}
+                    <tr>
+                        <td>{{ report.week }}</td>
+                        <td>{{ report.c }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <h4>Produksi Per Ayam</h4>
+        <canvas id="by_cage"></canvas>
+        <div style="overflow-x:auto;">
+            <table class="styled-table" style="width:100%">
+
+                <tr>
+                    <th>Nomor Kandang</th>
+                    <th>Posisi</th>
+                    <th>Produksi</th>
+                </tr>
+                {% for report in by_cage %}
+                    <tr>
+                        <td>{{ report.cage_num__number }}</td>
+                        <td>{{ report.cage_num__position }}</td>
+                        <td>{{ report.c }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
         integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
         crossorigin="anonymous"></script>
-{{ by_date_list |json_script:'by_date_list'}}
+
+{{ by_date_list |json_script:'by_date_list' }}
 <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
+    var ctx = document.getElementById('by_day').getContext('2d');
     var chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: JSON.parse(document.getElementById('by_date_list').textContent),
-        datasets: [{
-            label: 'Telur',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: {{ by_date_count }}
-        }]
-    },
-});
+        type: 'bar',
+        data: {
+            labels: JSON.parse(document.getElementById('by_date_list').textContent),
+            datasets: [{
+                label: 'Telur',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: {{ by_date_count }}
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1
+
+                    }
+                }]
+            }
+        }
+
+    });
+</script>
+{{ by_cage_list |json_script:'by_cage_list' }}
+<script>
+    var ctx = document.getElementById('by_cage').getContext('2d');
+    var myBarChart = new Chart(ctx, {
+        type: 'horizontalBar',
+        data: {
+            labels: JSON.parse(document.getElementById('by_cage_list').textContent),
+            datasets: [{
+                label: 'Telur',
+                backgroundColor: 'rgb(0,255,50)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: {{ by_cage_count }}
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1
+                    }
+                }]
+            }
+        }
+    });
 </script>
