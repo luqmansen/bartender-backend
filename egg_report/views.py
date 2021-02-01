@@ -69,7 +69,8 @@ class ReportView(generic.ListView):
 
 
 def submit_report(request):
-    if report := dict(request.POST).get('report') is None:
+    data = dict(request.POST).get('report')
+    if report is None:
         return HttpResponseRedirect(reverse('egg_report:report'))
 
     date = request.POST.get('input_date', datetime.now().date())
@@ -78,11 +79,11 @@ def submit_report(request):
         last_report.delete()
 
     bulk_report = []
-    data = [int(i) for i in report]
+    report = [int(i) for i in data]
     cage_list = Cage.objects.all().values_list('id', flat=True)
 
     for cage in cage_list:
-        egg = True if cage in data else False
+        egg = True if cage in report else False
         bulk_report.append(
             Report(
                 cage_num_id=cage,
