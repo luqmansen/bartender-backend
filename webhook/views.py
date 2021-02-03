@@ -12,3 +12,7 @@ def update(request):
         return HttpResponse(status=200)
     else:
         return HttpResponse(status=400)
+
+
+def healtz(request):
+    return HttpResponse(status=200)
