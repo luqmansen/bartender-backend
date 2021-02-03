@@ -3,5 +3,5 @@ from django.urls import path
 from webhook import views
 
 urlpatterns = [
-    path("update_server/", views.update, name="update"),
+    path("git_deploy/", views.update, name="update"),
 ]

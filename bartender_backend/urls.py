@@ -23,6 +23,7 @@ urlpatterns = [
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('favicon.png'))),
     path('api/', include('api.urls')),
     path('ayam/', include('egg_report.urls')),
+    path('hooks/', include('webhook.urls')),
     path('summernote/', include('django_summernote.urls')),
 ]
 urlpatterns += i18n_patterns(
