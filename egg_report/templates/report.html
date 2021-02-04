@@ -54,8 +54,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<h4>Hari Ini : {{ today }}
-    <h4>
+<h4>Hari Ini : {{ today }}<h4>
 
         <h4>Produksi Per Hari</h4>
         <canvas id="by_day"></canvas>
@@ -101,11 +100,11 @@
                     <th>Posisi</th>
                     <th>Produksi</th>
                 </tr>
-                {% for report in by_cage %}
+                {% for cage in by_cage %}
                     <tr>
-                        <td>{{ report.cage_num__number }}</td>
-                        <td>{% if report.cage_num__position == 'L' %} KIRI {% else %} KANAN {% endif %}</td>
-                        <td>{{ report.c }}</td>
+                        <td>{{ cage.number }}</td>
+                        <td>{% if cage.position == 'L' %} KIRI {% else %} KANAN {% endif %}</td>
+                        <td>{{ cage.c }}</td>
                     </tr>
                 {% endfor %}
             </table>

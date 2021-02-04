@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.db.models import Count
+from django.db.models import Count, Sum, Q, Case, When
 from django.db.models.functions import ExtractWeek
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -10,7 +10,7 @@ from egg_report.models import Cage, Report
 
 
 class IndexView(generic.ListView):
-    template_name = 'index.html'
+    template_name = 'test.html'
     context_object_name = 'cage_num'
 
     def get_queryset(self):
@@ -31,29 +31,33 @@ class ReportView(generic.ListView):
         return Report.objects.all()
 
     def get_today_report(self):
-        today = self.get_queryset()\
-            .filter(date=datetime.now().date(), is_lay_egg=True).count()
-        return today
+        today = self.get_queryset() \
+            .filter(date=datetime.now().date(), egg__gte=1).aggregate(s=Sum('egg'))
+        return today['s']
 
     def get_report_by_date(self):
-        q = self.get_queryset().filter(is_lay_egg=True) \
-                .values('date').annotate(c=Count('id')).order_by('-date')[:7]
+        q = self.get_queryset().filter(egg__gte=1) \
+                .values('date').annotate(c=Sum('egg')).order_by('-date')[:7]
         return q
 
     def get_report_by_week(self):
-        q = self.get_queryset().filter(is_lay_egg=True) \
+        q = self.get_queryset().filter(egg__gte=1) \
             .annotate(week=ExtractWeek('date')) \
-            .values('week').annotate(c=Count('id')).order_by('-week')
+            .values('week').annotate(c=Sum('egg')).order_by('-week')
         return q
 
     def get_report_by_cage(self):
-        q = self.get_queryset() \
-            .filter(is_lay_egg=True) \
+        rpt = self.get_queryset() \
             .values('cage_num_id', 'cage_num__number', 'cage_num__position') \
-            .annotate(c=Count('id')) \
+            .annotate(c=Sum('egg')) \
             .order_by('cage_num__position', '-c')
+        rpt = {i['cage_num_id']: i['c'] for i in rpt}
 
-        return q
+        cage = Cage.objects.all()
+        for c in cage:
+            setattr(c, 'c', rpt.get(c.id, 0))
+
+        return sorted(cage, key=lambda x: (x.position, x.c), reverse=True)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super(ReportView, self).get_context_data()
@@ -68,35 +72,47 @@ class ReportView(generic.ListView):
         ctx['by_week'] = self.get_report_by_week()
 
         ctx['by_cage'] = self.get_report_by_cage()
-        ctx['by_cage_list'] = [f"{i['cage_num__number']} {i['cage_num__position']}" for i in self.get_report_by_cage()]
-        ctx['by_cage_count'] = [i['c'] for i in self.get_report_by_cage()]
+        ctx['by_cage_list'] = [f"{i.number} {i.position}" for i in self.get_report_by_cage() if i.c != 0]
+        ctx['by_cage_count'] = [i.c for i in self.get_report_by_cage() if i.c != 0]
         return ctx
 
 
 def submit_report(request):
-    data = dict(request.POST).get('report')
-    if data is None:
+    report_left = dict(request.POST).get('reportLeft')
+    report_right = dict(request.POST).get('reportRight')
+    if None in [report_left, report_right]:
         return HttpResponseRedirect(reverse('egg_report:report'))
 
     date = request.POST.get('input_date', datetime.now().date())
-
     last_report = Report.objects.filter(date=datetime.strptime(date, '%Y-%m-%d'))
     if last_report.count() > 0:
         last_report.delete()
 
     bulk_report = []
-    report = [int(i) for i in data]
-    cage_list = Cage.objects.all().values_list('id', flat=True)
+    report_left = report_left[0].split(',')
+    report_right = report_right[0].split(',')
+    left_cage = Cage.objects.filter(position='L')
+    right_cage = Cage.objects.filter(position='R')
 
-    for cage in cage_list:
-        egg = True if cage in report else False
-        bulk_report.append(
-            Report(
-                cage_num_id=cage,
-                is_lay_egg=egg,
-                date=datetime.strptime(date, '%Y-%m-%d')
+    for cage_id, egg in enumerate(report_left):
+        if int(egg) != 0:
+            bulk_report.append(
+                Report(
+                    cage_num=left_cage[cage_id],
+                    egg=int(egg),
+                    date=datetime.strptime(date, '%Y-%m-%d')
+                )
             )
-        )
+    for cage_id, egg in enumerate(report_right):
+        if int(egg) != 0:
+            bulk_report.append(
+                Report(
+                    cage_num=right_cage[cage_id],
+                    egg=int(egg),
+                    date=datetime.strptime(date, '%Y-%m-%d')
+                )
+            )
+
     Report.objects.bulk_create(bulk_report)
 
     return HttpResponseRedirect(reverse('egg_report:report'))

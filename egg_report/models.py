@@ -23,7 +23,7 @@ class Report(models.Model):
         to=Cage,
         on_delete=models.CASCADE
     )
-    is_lay_egg = models.BooleanField(default=False)
+    egg = models.IntegerField()
 
     def __str__(self):
         return str(self.date)
