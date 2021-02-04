@@ -10,7 +10,7 @@ from egg_report.models import Cage, Report
 
 
 class IndexView(generic.ListView):
-    template_name = 'test.html'
+    template_name = 'index.html'
     context_object_name = 'cage_num'
 
     def get_queryset(self):
@@ -66,13 +66,14 @@ class ReportView(generic.ListView):
         by_date = self.get_report_by_date()
         ctx['by_date'] = by_date
         by_date = sorted(by_date, key=lambda x: x['date'])
-        ctx['by_date_list'] = [i['date'].strftime("%m/%d/%Y") for i in by_date]
+        ctx['by_date_list'] = [i['date'].strftime("%d/%m/%Y") for i in by_date]
         ctx['by_date_count'] = [i['c'] for i in by_date]
 
         ctx['by_week'] = self.get_report_by_week()
 
         ctx['by_cage'] = self.get_report_by_cage()
-        ctx['by_cage_list'] = [f"{i.number} {i.position}" for i in self.get_report_by_cage() if i.c != 0]
+        f = lambda x: 'Ki' if x.position is 'L' else 'Ka'
+        ctx['by_cage_list'] = [f"{i.number} {f(i)}" for i in self.get_report_by_cage() if i.c != 0]
         ctx['by_cage_count'] = [i.c for i in self.get_report_by_cage() if i.c != 0]
         return ctx
 

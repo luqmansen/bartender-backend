@@ -1,15 +1,22 @@
 {% load static %}
 
 <style>
+    body {
+        overflow-x: hidden;
+        margin: 10px;
+    }
+
     table, th, td {
         border: 1px solid black;
+        overflow: hidden;
     }
 
     table {
         border-collapse: collapse;
         border-spacing: 0;
-        width: 100%;
+        width: 10%;
         border: 1px solid #ddd;
+        table-layout: fixed;
     }
 
     th, td {
@@ -17,6 +24,13 @@
         padding: 8px;
     }
 
+    html, body {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        {#margin: 2%;#}
+        margin-right: 5 %;
+    }
 
     .styled-table {
         border-collapse: collapse;
@@ -25,6 +39,9 @@
         font-family: sans-serif;
         min-width: 400px;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+    .hidden-overflow-x {
+        overflow-x: hidden;
     }
 
     .styled-table thead tr {
@@ -49,16 +66,23 @@
     .styled-table tbody tr:last-of-type {
         border-bottom: 2px solid #009879;
     }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
 </style>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=2.0 user-scalable=0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" href={% static 'favicon.png' %}>
 </head>
 <body>
-<h4>Hari Ini : {{ today }}<h4>
+<h4>Hari Ini : {{ today }}
+    <h4>
 
         <h4>Produksi Per Hari</h4>
         <canvas id="by_day"></canvas>
-        <div style="overflow-x:auto;">
+        <div style="overflow-x:hidden;">
             <table class="styled-table" style="width:100%">
                 <tr>
                     <th>Tanggal</th>
@@ -74,8 +98,8 @@
         </div>
 
         <h4>Produksi Per Minggu</h4>
-        <div style="overflow-x:auto;">
-            <table class="styled-table" style="width:100%">
+        <div style="overflow-x:hidden;">
+            <table class="styled-table" >
 
                 <tr>
                     <th>Minggu</th>
@@ -92,9 +116,8 @@
 
         <h4>Produksi Per Ayam</h4>
         <canvas id="by_cage"></canvas>
-        <div style="overflow-x:auto;">
-            <table class="styled-table" style="width:100%">
-
+        <div style="overflow-x:hidden;">
+            <table class="styled-table">
                 <tr>
                     <th>Nomor Kandang</th>
                     <th>Posisi</th>
@@ -145,6 +168,7 @@
 {{ by_cage_list |json_script:'by_cage_list' }}
 <script>
     var ctx = document.getElementById('by_cage').getContext('2d');
+    ctx.height = 500;
     var myBarChart = new Chart(ctx, {
         type: 'horizontalBar',
         data: {
@@ -157,6 +181,7 @@
             }]
         },
         options: {
+            maintainAspectRatio: false,
             scales: {
                 xAxes: [{
                     ticks: {
