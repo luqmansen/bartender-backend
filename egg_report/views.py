@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import xlwt
 from django.db.models import Count, Sum, Q, Case, When
 from django.db.models.functions import ExtractWeek
 from django.http import HttpResponseRedirect
@@ -7,6 +8,9 @@ from django.urls import reverse
 from django.views import generic
 
 from egg_report.models import Cage, Report
+import csv
+
+from django.http import HttpResponse
 
 
 class IndexView(generic.ListView):
@@ -72,7 +76,7 @@ class ReportView(generic.ListView):
         ctx['by_week'] = self.get_report_by_week()
 
         ctx['by_cage'] = self.get_report_by_cage()
-        f = lambda x: 'Ki' if x.position is 'L' else 'Ka'
+        f = lambda x: 'Ki' if x.position == 'L' else 'Ka'
         ctx['by_cage_list'] = [f"{i.number} {f(i)}" for i in self.get_report_by_cage() if i.c != 0]
         ctx['by_cage_count'] = [i.c for i in self.get_report_by_cage() if i.c != 0]
         return ctx
@@ -117,3 +121,45 @@ def submit_report(request):
     Report.objects.bulk_create(bulk_report)
 
     return HttpResponseRedirect(reverse('egg_report:report'))
+
+
+def export_report_xls(request):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = f'attachment; filename="report-{datetime.now().date()}.xls"'
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet(f'report-{datetime.now().date()}')
+
+    row_num = 0
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    columns = ['Nomor Kandang', 'Posisi', 'Tanggal', 'Telur']
+
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+
+    font_style = xlwt.XFStyle()
+    q = """SELECT * FROM 
+            (
+                SELECT c.id, c.number, c.position, r.date, r.egg 
+                FROM egg_report_cage c
+                RIGHT  JOIN egg_report_report r 
+                ON (r.cage_num_id = c.id)
+            ) M 
+            ORDER BY date, M.position, M.number
+    """
+
+    rows = list(Report.objects.raw(q))
+
+    for row in rows:
+        row_num += 1
+        ws.write(row_num, 0, row.number, font_style)
+        ws.write(row_num, 1, row.position, font_style)
+        ws.write(row_num, 2, row.date.strftime("%d/%m/%Y"), font_style)
+        ws.write(row_num, 3, row.egg, font_style)
+
+    wb.save(response)
+    return response
+

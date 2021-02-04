@@ -168,7 +168,7 @@
 {{ by_cage_list |json_script:'by_cage_list' }}
 <script>
     var ctx = document.getElementById('by_cage').getContext('2d');
-    ctx.height = 500;
+    ctx.height = {{ by_cage_count }}.length;
     var myBarChart = new Chart(ctx, {
         type: 'horizontalBar',
         data: {
