@@ -10,5 +10,36 @@ services:
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
       - '3306:3306'
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=password --execute \"SHOW DATABASES;\""
+      interval: 1s
+      retries: 2
     volumes:
       - ./docker/db:/var/lib/mysql
+    networks:
+      - bartender
+
+  web:
+    build: .
+    image: bartender-backend
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      API_KEY: ${API_KEY}
+      API_SECRET: ${API_SECRET}
+      CLOUD_NAME: ${CLOUD_NAME}
+      SECRET_KEY: 'changeme'
+      CLEARDB_DATABASE_URL: 'mysql://user:password@db:3306/db'
+      DEPLOY: 'DEV'
+    depends_on:
+      db:
+        condition: service_healthy
+
+    networks:
+      - bartender
+
+networks:
+  bartender:
